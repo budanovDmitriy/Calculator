@@ -9,15 +9,51 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var resultLabel: UILabel!
+    // MARK: - Override properties
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
+    }
+    
+    // MARK: - Private properties
+    
     private var firstNumber: Double = 0.0
     private var symbol: String = ""
     private var isSymbolPressed: Bool = false
     
+    // MARK: - IBOutlets
+
+    @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet var buttons: [UIButton]!
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
+    
+    // MARK: - Override methods
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        setupButtons()
     }
+    
+    // MARK: - Private methods
+    
+    private func calculate(_ secondNumber: Double) -> Double {
+        switch symbol {
+        case "+": return firstNumber + secondNumber
+        case "-": return firstNumber - secondNumber
+        case "×": return firstNumber * secondNumber
+        case "÷": return firstNumber / secondNumber
+        case "%": return firstNumber * secondNumber / 100
+        default: return Double(resultLabel.text!)!
+        }
+    }
+    
+    private func setupButtons(){
+        buttons.forEach(){ button in
+            button.layoutIfNeeded()
+            button.layer.cornerRadius = button.frame.height / 2
+        }
+    }
+    
+    // MARK: - IBActions
     
     @IBAction func pressNumbers(_ sender: UIButton) {
         let buttonText = sender.titleLabel?.text!
@@ -61,36 +97,5 @@ class ViewController: UIViewController {
         resultLabel.text = String(Double(resultLabel.text!)! * (-1))
         isSymbolPressed = true
     }
-    
-    private func calculate(_ secondNumber: Double) -> Double {
-        switch symbol {
-        case "+": return firstNumber + secondNumber
-        case "-": return firstNumber - secondNumber
-        case "×": return firstNumber * secondNumber
-        case "÷": return firstNumber / secondNumber
-        case "%": return firstNumber * secondNumber / 100
-        default: return Double(resultLabel.text!)!
-        }
-    }
-    
-    private func setupButtons(){
-        buttons.forEach(){ button in
-            button.layoutIfNeeded()
-            button.layer.cornerRadius = button.frame.height / 2
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        setupButtons()
-    }
-    
-    
-
 }
 
