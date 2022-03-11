@@ -87,15 +87,28 @@ class ViewController: UIViewController {
     @IBAction func pressCalculate(_ sender: UIButton) {
         let secondNumber = Double(resultLabel.text!)!
         let result = calculate(secondNumber)
-        resultLabel.text = String(result)
+        if String(result).contains(".0") {
+            resultLabel.text = String(Int(result))
         firstNumber = 0.0
         symbol = ""
-        isSymbolPressed = true
+            isSymbolPressed = true
+        }
+        else {
+            resultLabel.text = String(result)
+        firstNumber = 0.0
+        symbol = ""
+            isSymbolPressed = true }
     }
     
     @IBAction func pressNegative(_ sender: UIButton) {
-        resultLabel.text = String(Double(resultLabel.text!)! * (-1))
+        if resultLabel.text!.contains(".") {
+            resultLabel.text = String(Double(resultLabel.text!)! * (-1))
+            isSymbolPressed = true
+        }
+        else {
+        resultLabel.text = String(Int(resultLabel.text!)! * (-1))
         isSymbolPressed = true
+        }
     }
 }
 
